@@ -2,9 +2,9 @@ name: Build and Tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
   schedule:   
     - cron: '0 12 * * *'
 
@@ -38,4 +38,4 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@v2.0.2      
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_4 }}
