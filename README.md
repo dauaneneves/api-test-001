@@ -1,39 +1,45 @@
-# Playwright E2E
+# Projeto de Teste de Carga com k6
 
-## GitHub Actions + SonarCloud
+## Descrição
 
-[![Build and Tests](https://github.com/ugioni/playwright-e2e/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/ugioni/playwright-e2e/actions/workflows/node.js.yml)
+Este projeto foi desenvolvido para atender aos critérios de avaliação da disciplina de Automação de Testes, conforme solicitado:
 
-</br>
+- Implementação de uma rampa de usuários virtuais (VUs) conforme gráfico de referência:
+  - Inicia com 10 VUs
+  - Sobe até 300 VUs em 5 minutos
+- Thresholds:
+  - 95% das respostas com tempo abaixo de 5700ms
+  - Menos de 12% das requisições retornando erro
+- Métricas:
+  - Métrica do tipo TREND validando a duração da chamada GET
+  - Métrica do tipo RATE validando o status code
+- Pipeline rodando no Github Actions
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ugioni_playwright-e2e&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ugioni_playwright-e2e)
+## API utilizada
 
-## Getting Started
+A API utilizada para os testes é a pública e gratuita:
 
-In order to execute this project you must follow the steps below:
+- https://jsonplaceholder.typicode.com/posts
 
-1. Install [Node JS](https://nodejs.org/) (version >= 20.x)
-1. Run `npm i --save-dev` to install all the project dependencies
-1. Run `npx playwright install` to install the browsers used by Playwright
-1. Run `npm run ci` to execute the entire test suite
-1. Run `npm run show-report` to visualize the reports
+Essa API retorna uma lista de posts em formato JSON e é ideal para testes de carga, pois não exige autenticação e suporta múltiplas requisições simultâneas.
 
-All execution artifacts can be found in `./artifacts`, if you want to remove these files run `npm run clean`.
+## Como rodar o teste localmente
 
-## Using ZeroStep AI
-</br>
+1. Instale o k6:
+   - Windows: `choco install k6` ou baixe de https://k6.io/docs/getting-started/installation/
+2. Execute o teste:
+   ```bash
+   k6 run src/loadtest.js
+   ```
 
-To use the AI ​​feature with ZeroStep, you must create the `zerostep.config.json` file in the root of the project and add your ZeroStep token.
+## Pipeline Github Actions
 
-## Project Structure
-</br>
-<ul>
-    <li>Scenarios: Test scenario mapping</li>
-    <li>Support: Project structure files
-        <ul>
-            <li>Elements: Mapping the elements of each screen</li>
-            <li>Fixtures: Data configuration files</li>
-            <li>Pages: Logic used to perform actions in tests</li>
-        </ul>
-    </li>
-</ul>
+O teste de carga é executado automaticamente no Github Actions a cada push ou pull request na branch main, conforme definido em `.github/workflows/loadtest.yml`.
+
+## SonarCloud
+
+O projeto está configurado para análise automática de qualidade de código via SonarCloud, utilizando token seguro via Github Secrets.
+
+---
+
+Se precisar de mais informações, consulte o arquivo `src/loadtest.js` para detalhes do script de teste de carga.
